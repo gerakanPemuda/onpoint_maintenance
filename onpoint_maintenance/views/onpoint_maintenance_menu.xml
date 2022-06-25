@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <!--Top Menu-->
+        <menuitem id="menu_onpoint_maintenance_root" name="Onpoint Maintenance" sequence="1"/>
+
+        <menuitem id="menu_onpoint_client_root" name="Clients" sequence="2" parent="menu_onpoint_maintenance_root" action="act_view_onpoint_client"/>
+
+        <menuitem id="menu_onpoint_support_root" name="Support" sequence="3" parent="menu_onpoint_maintenance_root" action="act_view_onpoint_support"/>
+
+    </data>
+</odoo>

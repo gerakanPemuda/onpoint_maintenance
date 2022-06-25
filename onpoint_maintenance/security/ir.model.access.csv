@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_onpoint_client_superadmin,onpoint_maintenance.onpoint.client superadmin,onpoint_maintenance.model_onpoint_client,onpoint_maintenance.group_onpoint_maintenance_superadmin,1,1,1,1
+access_onpoint_support_superadmin,onpoint_maintenance.onpoint.support superadmin,onpoint_maintenance.model_onpoint_support,onpoint_maintenance.group_onpoint_maintenance_superadmin,1,1,1,1
