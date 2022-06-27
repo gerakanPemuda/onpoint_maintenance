@@ -3,6 +3,87 @@
 <odoo>
     <data>
 
+        <record id="onpointsupport_search" model="ir.ui.view">
+            <field name="name">onpoint.support.search</field>
+            <field name="model">onpoint.support</field>
+            <field name="arch" type="xml">
+                <search string="Supports">
+                    <field name="client_id"/>
+                    <field name="support_type"/>
+                    <field name="state"/>
+                    <separator/>
+                    <filter string="Bug" name="bug" domain="[('support_type', '=', 'bug')]"/>
+                    <filter string="New Request" name="request" domain="[('support_type', '=', 'request')]"/>
+
+                    <group expand="1" string="Group By">
+                        <filter string="Support Type" name="support_type" context="{'group_by':'support_type'}"/>
+                        <filter string="State" name="state" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="onpoint_support_tree" model="ir.ui.view">
+            <field name="name">onpoint.support.tree</field>
+            <field name="model">onpoint.support</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="client_id"/>
+                    <field name="submit_date"/>
+                    <field name="support_type"/>
+                    <field name="notes"/>
+                    <field name="state"/>
+                    <field name="approve_reject_date"/>
+                    <field name="complete_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="onpoint_support_form" model="ir.ui.view">
+            <field name="name">onpoint.support.form</field>
+            <field name="model">onpoint.support</field>
+            <field name="arch" type="xml">
+                <form>
+                     <header>
+                         <!-- Button Submit -->
+                         <button attrs="{'invisible': [('state', '!=', 'draft')]}" id="button_submit" name="action_submit" string="Submit" class="btn-primary" type="object"/>
+
+                         <!-- Button In Process -->
+                         <button attrs="{'invisible': ['|', ('state', '!=', 'submit'), ('support_type', '!=', 'bug')]}" id="button_in_process" name="action_in_process" string="In Process" class="btn-primary" type="object"/>
+
+                         <button attrs="{'invisible': ['|', ('state', '!=', 'submit'), ('support_type', '!=', 'request')]}" id="button_approve" name="action_approve" string="Approve" class="btn-primary" type="object"/>
+
+                         <button attrs="{'invisible': [('state', '!=', 'in_process')]}" id="button_complete" name="action_complete" string="Complete" class="btn-primary" type="object"/>
+
+                         <button attrs="{'invisible': [('state', '!=', 'approve')]}" id="button_complete" name="action_in_process" string="In Process" class="btn-primary" type="object"/>
+
+                         <button attrs="{'invisible': ['|', ('state', '!=', 'submit'), ('support_type', '!=', 'request')]}" id="button_reject" name="action_reject" string="Reject" class="btn-primary" type="object"/>
+
+                        <field name="state" invisible="1"/>
+
+                         <field name="state_bug" widget="statusbar" statusbar_visible="draft,submit,in_process,complete" attrs="{'invisible': [('support_type', '!=', 'bug')]}"/>
+
+                         <field name="state_request" widget="statusbar" statusbar_visible="draft,submit,approve,reject,in_process,complete" attrs="{'invisible': [('support_type', '!=', 'request')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="client_id"/>
+                                <field name="support_type"/>
+                                <field name="submit_date"/>
+                                <field name="start_date"/>
+                            </group>
+                            <group>
+                                <field name="notes"/>
+                                <field name="approve_reject_date"/>
+                                <field name="complete_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="act_view_onpoint_support" model="ir.actions.act_window">
             <field name="name">Supports</field>
             <field name="type">ir.actions.act_window</field>
