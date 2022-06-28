@@ -5,7 +5,7 @@ from datetime import datetime
 class OnpointSupport(models.Model):
     _name = 'onpoint.support'
     _description = 'Onpoint Support'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'api.telegram.abstract']
 
     support_type = fields.Selection([
         ('bug', 'Bug Fixing'),
@@ -34,6 +34,11 @@ class OnpointSupport(models.Model):
 
     def action_submit(self):
         self.state = 'submit'
+        params = {
+            'chat_id': '413579342',
+            'message': 'Tes Zunedi'
+        }
+        result = self.send_message(params)
 
     def action_approve(self):
         self.state = 'approve'
