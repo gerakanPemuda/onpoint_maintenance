@@ -5,13 +5,15 @@ from datetime import datetime
 class OnpointSupport(models.Model):
     _name = 'onpoint.support'
     _description = 'Onpoint Support'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     support_type = fields.Selection([
         ('bug', 'Bug Fixing'),
         ('request', 'New Request'),
-    ], default='bug')
+    ], default='bug', tracking=True)
     client_id = fields.Many2one('onpoint.client')
     notes = fields.Text(required=True)
+    complete_notes = fields.Text()
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submit', 'Submitted'),
@@ -25,10 +27,10 @@ class OnpointSupport(models.Model):
     state_approve = fields.Selection(related='state')
     state_reject = fields.Selection(related='state')
 
-    submit_date = fields.Date(default=datetime.today())
-    approve_reject_date = fields.Date()
-    start_date = fields.Date()
-    complete_date = fields.Date()
+    submit_date = fields.Date(default=datetime.now())
+    approve_reject_date = fields.Date(default=fields.Datetime.now, string='Approve/Reject Date')
+    start_date = fields.Date(default=fields.Datetime.now)
+    complete_date = fields.Date(default=fields.Datetime.now)
 
     def action_submit(self):
         self.state = 'submit'

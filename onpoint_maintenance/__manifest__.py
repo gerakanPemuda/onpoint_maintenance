@@ -7,7 +7,9 @@
     'category': 'Productivity',
     'website': 'https:',
     'license': 'LGPL-3',
-    'depends': [],
+    'depends': [
+        'mail',
+    ],
     'data': [
         'views/onpoint_client_view.xml',
         'views/onpoint_support_view.xml',
