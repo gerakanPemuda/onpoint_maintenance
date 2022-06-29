@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from datetime import datetime, timedelta
+import re
 
 
 class OnpointSupport(models.Model):
@@ -44,16 +45,16 @@ class OnpointSupport(models.Model):
 
     def action_submit(self):
         self.state = 'submit'
-        message = dict(self._fields['support_type'].selection).get(self.support_type) + "\n"
+        message = dict(self._fields['support_type'].selection).get(self.support_type) + " - " + dict(self._fields['state'].selection).get(self.state) + "\n"
         message += (self.submit_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
         message += "\n"
-        message += self.client_id.name + "\n"
+        message += self.client_id.name + "\n"  # untuk mengakses relasi name dimodel lain
         message += "\n"
         message += "Notes:" + "\n"
         message += self.notes + "\n\n"
         message += "(by: " + self.env.user.name + ")" + "\n"
         message += "\n"
-        message += "&#35;" + self.name
+        message += "%23" + self.name
 
         params = {
             'chat_id': '413579342',
@@ -64,17 +65,83 @@ class OnpointSupport(models.Model):
     def action_approve(self):
         self.state = 'approve'
         self.approve_reject_date = datetime.today()
+        message = dict(self._fields['support_type'].selection).get(self.support_type) + " - " + dict(self._fields['state'].selection).get(self.state) + "\n"
+        message += (self.approve_reject_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
+        message += "\n"
+        message += self.client_id.name + "\n"
+        message += "\n"
+        message += "Notes:" + "\n"
+        message += self.notes + "\n\n"
+        message += "(by: " + self.env.user.name + ")" + "\n"
+        message += "\n"
+        message += "%23" + self.name
+
+        params = {
+            'chat_id': '413579342',
+            'message': message
+        }
+        result = self.send_message(params)
 
     def action_reject(self):
         self.state = 'reject'
         self.approve_reject_date = datetime.today()
+        message = dict(self._fields['support_type'].selection).get(self.support_type) + " - " + dict(self._fields['state'].selection).get(self.state) + "\n"
+        message += (self.approve_reject_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
+        message += "\n"
+        message += self.client_id.name + "\n"
+        message += "\n"
+        message += "Notes:" + "\n"
+        message += self.notes + "\n\n"
+        message += "(by: " + self.env.user.name + ")" + "\n"
+        message += "\n"
+        message += "%23" + self.name
+
+        params = {
+            'chat_id': '413579342',
+            'message': message
+        }
+        result = self.send_message(params)
 
     def action_in_process(self):
         self.state = 'in_process'
         self.start_date = datetime.today()
+        message = dict(self._fields['support_type'].selection).get(self.support_type) + " - " + dict(self._fields['state'].selection).get(self.state) + "\n"
+        message += (self.start_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
+        message += "\n"
+        message += self.client_id.name + "\n"
+        message += "\n"
+        message += "Notes:" + "\n"
+        message += self.notes + "\n\n"
+        message += "(by: " + self.env.user.name + ")" + "\n"
+        message += "\n"
+        message += "%23" + self.name
+
+        params = {
+            'chat_id': '413579342',
+            'message': message
+        }
+        result = self.send_message(params)
 
     def action_complete(self):
         self.state = 'complete'
         self.complete_date = datetime.today()
+        message = dict(self._fields['support_type'].selection).get(self.support_type) + " - " + dict(self._fields['state'].selection).get(self.state) + "\n"
+        message += (self.complete_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
+        message += "\n"
+        message += self.client_id.name + "\n"
+        message += "\n"
+        message += "Notes:" + "\n"
+        message += self.notes + "\n\n"
+        message += "Complete Notes:" + "\n"
+        message += self.complete_notes + "\n\n"
+        message += "(by: " + self.env.user.name + ")" + "\n"
+        message += "\n"
+        message += "%23" + self.name
+
+        params = {
+            'chat_id': '413579342',
+            'message': message
+        }
+        result = self.send_message(params)
 
 
