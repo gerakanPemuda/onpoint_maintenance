@@ -9,8 +9,10 @@
     'license': 'LGPL-3',
     'depends': [
         'mail',
+        'onpoint_telegram',  # nameModule
     ],
     'data': [
+        'data/onpoint_support_sequence.xml',
         'views/onpoint_client_view.xml',
         'views/onpoint_support_view.xml',
         'views/onpoint_maintenance_menu.xml',

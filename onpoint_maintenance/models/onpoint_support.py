@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import datetime
 
 
@@ -31,14 +31,17 @@ class OnpointSupport(models.Model):
     approve_reject_date = fields.Date()
     start_date = fields.Date()
     complete_date = fields.Date()
+    invoice = fields.Char(string='Maintenance', required=True, copy=False, readonly=True, default=_('New'))
 
-    def action_submit(self):
+    # telegram_maintenance_ids = fields.One2many('onpoint.telegram.group', 'support_id')
+
+    def action_submit(self, vals):
         self.state = 'submit'
-        params = {
-            'chat_id': '413579342',
-            'message': 'Tes Zunedi'
-        }
-        result = self.send_message(params)
+        # params = {
+        #     'chat_id': '413579342',
+        #     'message': 'Tes Zunedi'
+        # }
+        # result = self.send_message(params)
 
     def action_approve(self):
         self.state = 'approve'
@@ -55,3 +58,10 @@ class OnpointSupport(models.Model):
     def action_complete(self):
         self.state = 'complete'
         self.complete_date = datetime.today()
+
+    @api.model
+    def create(self, vals):
+        if vals.get('invoice', _('New')) == _('New'):
+            vals['invoice'] = self.env['ir.sequence'].next_by_code('onpoint.support') or _('New')
+        res = super(OnpointSupport, self).create(vals)
+        return res

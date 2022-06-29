@@ -67,6 +67,11 @@
                          <field name="state_request" widget="statusbar" statusbar_visible="draft,submit,approve,reject,in_process,complete" attrs="{'invisible': [('support_type', '!=', 'request')]}"/>
                     </header>
                     <sheet>
+                        <div>
+                            <h1 class="oe_title">
+                                <field name="invoice" readonly="1"/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
                                 <field name="submit_date" readonly="1"/>
