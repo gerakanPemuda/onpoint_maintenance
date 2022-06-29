@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class OnpointSupport(models.Model):
@@ -11,7 +11,7 @@ class OnpointSupport(models.Model):
         ('bug', 'Bug Fixing'),
         ('request', 'New Request'),
     ], default='bug', tracking=True)
-    client_id = fields.Many2one('onpoint.client')
+    client_id = fields.Many2one('onpoint.client', required=True)
     notes = fields.Text(required=True)
     complete_notes = fields.Text()
     state = fields.Selection([
@@ -33,15 +33,23 @@ class OnpointSupport(models.Model):
     complete_date = fields.Date()
     invoice = fields.Char(string='Maintenance', required=True, copy=False, readonly=True, default=_('New'))
 
-    # telegram_maintenance_ids = fields.One2many('onpoint.telegram.group', 'support_id')
+    telegram_group_maintenance_ids = fields.Many2one('onpoint.telegram.group')
 
-    def action_submit(self, vals):
+    def action_submit(self):
         self.state = 'submit'
-        # params = {
-        #     'chat_id': '413579342',
-        #     'message': 'Tes Zunedi'
-        # }
-        # result = self.send_message(params)
+        message = '<b>' + self.support_type + '</b>' + "\n"
+        message += (self.submit_date + timedelta(hours=7)).strftime('%d %B %y') + "\n"
+        message += "\n"
+        message += self.client_id.name + "\n"
+        message += "\n"
+        message += "Notes:" + "\n"
+        message += self.notes
+
+        params = {
+            'chat_id': '413579342',
+            'message': message
+        }
+        result = self.send_message(params)
 
     def action_approve(self):
         self.state = 'approve'
