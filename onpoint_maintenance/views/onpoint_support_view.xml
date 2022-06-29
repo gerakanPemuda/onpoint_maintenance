@@ -69,7 +69,7 @@
                     <sheet>
                         <div>
                             <h1 class="oe_title">
-                                <field name="invoice" readonly="1"/>
+                                <field name="name" readonly="1"/>
                             </h1>
                         </div>
                         <group>
