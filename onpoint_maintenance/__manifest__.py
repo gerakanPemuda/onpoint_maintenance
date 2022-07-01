@@ -12,6 +12,7 @@
         'onpoint_telegram',  # nameModule
     ],
     'data': [
+        'views/onpoint_telegram_group_views.xml',
         'data/onpoint_support_sequence.xml',
         'views/onpoint_client_view.xml',
         'views/onpoint_support_view.xml',

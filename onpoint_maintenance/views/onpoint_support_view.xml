@@ -36,6 +36,7 @@
                     <field name="approve_reject_date"/>
                     <field name="complete_date"/>
                     <field name="complete_notes"/>
+                    <field name="telegram_group_maintenance_ids"/>
                 </tree>
             </field>
         </record>
@@ -52,8 +53,10 @@
                          <!-- Button In Process -->
                          <button attrs="{'invisible': ['|', ('state', '!=', 'submit'), ('support_type', '!=', 'bug')]}" id="button_in_process" name="action_in_process" string="In Process" class="btn-primary" type="object"/>
 
+                         <!--Button Approve-->
                          <button attrs="{'invisible': ['|', ('state', '!=', 'submit'), ('support_type', '!=', 'request')]}" id="button_approve" name="action_approve" string="Approve" class="btn-primary" type="object"/>
 
+                         <!--Button Complete-->
                          <button attrs="{'invisible': [('state', '!=', 'in_process')]}" id="button_complete" name="action_complete" string="Complete" class="btn-primary" type="object"/>
 
                          <button attrs="{'invisible': [('state', '!=', 'approve')]}" id="button_complete" name="action_in_process" string="In Process" class="btn-primary" type="object"/>
@@ -85,6 +88,8 @@
                             </group>
 
                             <group>
+                                <field name="telegram_group_maintenance_ids" string="Telegram Group" domain="[('telegram_group_maintenance', '=', True)]" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True}"/>
+
                                 <field name="approve_reject_date" readonly="1"/>
 
                                 <field name="start_date" readonly="1"/>

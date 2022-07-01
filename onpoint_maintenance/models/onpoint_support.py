@@ -8,6 +8,10 @@ class OnpointSupport(models.Model):
     _description = 'Onpoint Support'
     _inherit = ['mail.thread', 'mail.activity.mixin', 'api.telegram.abstract']
 
+    def default_telegram_group(self):
+        telegram_group = self.env['onpoint.telegram.group'].search([('telegram_group_maintenance', '=', True)], limit=1)
+        return telegram_group.id or False
+
     name = fields.Char(string='Maintenance', required=True, copy=False, readonly=True, default=_('New'))
     support_type = fields.Selection([
         ('bug', 'Bug Fixing'),
@@ -33,8 +37,10 @@ class OnpointSupport(models.Model):
     approve_reject_date = fields.Date()
     start_date = fields.Date()
     complete_date = fields.Date()
-
-    telegram_group_maintenance_ids = fields.Many2one('onpoint.telegram.group')
+    telegram_group_maintenance_ids = fields.Many2one('onpoint.telegram.group',
+                                                     default=default_telegram_group,
+                                                     required=True,
+                                                     select=True)
 
     @api.model
     def create(self, vals):
@@ -143,5 +149,3 @@ class OnpointSupport(models.Model):
             'message': message
         }
         result = self.send_message(params)
-
-

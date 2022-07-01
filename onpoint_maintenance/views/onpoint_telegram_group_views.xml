@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_inherit_onpoint_telegram_group_tree">
+            <field name="name">onpoint.telegram.group.tree.inherit</field>
+            <field name="model">onpoint.telegram.group</field>
+            <field name="inherit_id" ref="onpoint_telegram.view_onpoint_telegram_group_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='chat_id']" position="after">
+                        <field name="telegram_group_maintenance"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

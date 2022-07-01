@@ -6,3 +6,4 @@ class OnpointTelegramGroup(models.Model):
 
     telegram_group_maintenance = fields.Boolean(string='Telegram Group Maintenance', default=False)
 
+
